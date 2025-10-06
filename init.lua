@@ -692,7 +692,41 @@ require('lazy').setup({
       local servers = {
         -- clangd = {},
         -- gopls = {},
-        -- pyright = {},
+        pyright = {
+          settings = {
+            python = {
+              analysis = {
+                typeCheckingMode = 'basic', -- or "strict"
+                autoImportCompletions = true,
+              },
+            },
+          },
+        },
+        ruff = {
+          capabilities = capabilities,
+          init_options = {
+            settings = {
+              -- You can pass inline config or path to your toml/pyproject
+              -- E.g. use project config by default, but override:
+              configuration = nil, -- or path like "pyproject.toml"
+              configurationPreference = 'preferLocal', -- local config first
+              lint = {
+                select = {}, -- which rules to enforce (empty = default)
+                extendSelect = {}, -- extra rules
+                ignore = {}, -- rules to ignore
+                preview = {
+                  enabled = true, -- show fixes preview if supported
+                },
+              },
+              format = {
+                preview = true, -- show before applying
+              },
+              exclude = {}, -- file patterns to exclude
+              lineLength = nil, -- override max line length (if desired)
+            },
+          },
+          filetypes = { 'python' },
+        },
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
